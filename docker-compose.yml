@@ -63,11 +63,11 @@ services:
         max-size: '10m'
         max-file: '5'
     networks:
-    - elasticsearch_network
+      - elasticsearch_network
 
   kibana:
     depends_on:
-    - elasticsearch
+      - elasticsearch
     container_name: kibana
     build:
       context: kibana/
