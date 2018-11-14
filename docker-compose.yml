@@ -21,11 +21,11 @@ services:
         soft: -1
         hard: -1
       nproc:
-        soft: -1
-        hard: -1
+        soft: 4096
+        hard: 4096
       nofile:
-        soft: -1
-        hard: -1
+        soft: 65536
+        hard: 65536
     logging:
       driver: 'json-file'
       options:
@@ -52,11 +52,11 @@ services:
         soft: -1
         hard: -1
       nproc:
-        soft: -1
-        hard: -1
+        soft: 4096
+        hard: 4096
       nofile:
-        soft: -1
-        hard: -1
+        soft: 65536
+        hard: 65536
     logging:
       driver: 'json-file'
       options:
