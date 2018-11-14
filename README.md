@@ -50,7 +50,7 @@ On Linux systems, you can disable swap temporarily by running:
 
 To disable it permanently, you will need to edit the /etc/fstab file and comment out any lines that contain the word swap.
 
-####[Configure swappiness](https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-configuration-memory.html#swappiness)
+#### [Configure swappiness](https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-configuration-memory.html#swappiness)
 Another option available on Linux systems is to ensure that the sysctl value vm.swappiness is set to 1. 
 
 
