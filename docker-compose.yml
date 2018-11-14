@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 services:
 
@@ -9,7 +9,7 @@ services:
       args:
         VERSION: $VERSION
     environment:
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
@@ -20,10 +20,10 @@ services:
         soft: -1
         hard: -1
     logging:
-      driver: "json-file"
+      driver: 'json-file'
       options:
-        max-size: "10m"
-        max-file: "5"
+        max-size: '10m'
+        max-file: '5'
     networks:
       - elasticsearch_network
 
@@ -34,29 +34,29 @@ services:
       args:
         VERSION: $VERSION
     environment:
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - "discovery.zen.ping.unicast.hosts=elasticsearch"
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - discovery.zen.ping.unicast.hosts=elasticsearch
     volumes:
-    - elasticsearch2_data:/usr/share/elasticsearch/data
-    - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - elasticsearch2_data:/usr/share/elasticsearch/data
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     ports:
-    - 9200:9200
+      - 9200:9200
     ulimits:
       memlock:
         soft: -1
         hard: -1
     logging:
-      driver: "json-file"
+      driver: 'json-file'
       options:
-        max-size: "10m"
-        max-file: "5"
+        max-size: '10m'
+        max-file: '5'
     networks:
     - elasticsearch_network
 
   kibana:
     container_name: kibana
     depends_on:
-    - elasticsearch
+      - elasticsearch
     build:
       context: kibana/
       args:
@@ -64,14 +64,14 @@ services:
     volumes:
       - ./kibana/config/:/usr/share/kibana/config:ro
     ports:
-      - "5601:5601"
+      - 5601:5601
     logging:
-      driver: "json-file"
+      driver: 'json-file'
       options:
-        max-size: "10m"
-        max-file: "5"
+        max-size: '10m'
+        max-file: '5'
     networks:
-    - elasticsearch_network
+      - elasticsearch_network
 
 volumes:
   elasticsearch_data:
