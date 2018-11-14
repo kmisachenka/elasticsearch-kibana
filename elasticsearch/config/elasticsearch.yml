@@ -1,5 +1,6 @@
 ---
-## Elasticsearch configuration
+## All of possible Elasticsearch configuration options you can find here:
+## https://github.com/elastic/elasticsearch/tree/master/docs/reference/modules
 
 cluster.name: "docker-cluster"
 network.host: 0.0.0.0
