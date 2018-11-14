@@ -8,6 +8,7 @@ services:
       context: elasticsearch/
       args:
         VERSION: $VERSION
+    restart: unless-stopped
     environment:
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
     volumes:
@@ -17,6 +18,12 @@ services:
       - 9200:9200
     ulimits:
       memlock:
+        soft: -1
+        hard: -1
+      nproc:
+        soft: -1
+        hard: -1
+      nofile:
         soft: -1
         hard: -1
     logging:
@@ -33,6 +40,7 @@ services:
       context: elasticsearch/
       args:
         VERSION: $VERSION
+    restart: unless-stopped
     environment:
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
       - discovery.zen.ping.unicast.hosts=elasticsearch
@@ -41,6 +49,12 @@ services:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     ulimits:
       memlock:
+        soft: -1
+        hard: -1
+      nproc:
+        soft: -1
+        hard: -1
+      nofile:
         soft: -1
         hard: -1
     logging:
@@ -52,13 +66,14 @@ services:
     - elasticsearch_network
 
   kibana:
-    container_name: kibana
     depends_on:
-      - elasticsearch
+    - elasticsearch
+    container_name: kibana
     build:
       context: kibana/
       args:
         VERSION: $VERSION
+    restart: unless-stopped
     volumes:
       - kibana_data:/usr/share/kibana/data
       - ./kibana/config/:/usr/share/kibana/config:ro
