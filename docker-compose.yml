@@ -39,8 +39,6 @@ services:
     volumes:
       - elasticsearch2_data:/usr/share/elasticsearch/data
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
-    ports:
-      - 9200:9200
     ulimits:
       memlock:
         soft: -1
@@ -62,6 +60,7 @@ services:
       args:
         VERSION: $VERSION
     volumes:
+      - kibana_data:/usr/share/kibana/data
       - ./kibana/config/:/usr/share/kibana/config:ro
     ports:
       - 5601:5601
@@ -77,6 +76,8 @@ volumes:
   elasticsearch_data:
     driver: local
   elasticsearch2_data:
+    driver: local
+  kibana_data:
     driver: local
 
 networks:
