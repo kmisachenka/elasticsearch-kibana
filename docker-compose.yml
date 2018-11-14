@@ -3,43 +3,82 @@ version: '2'
 services:
 
   elasticsearch:
+    container_name: elasticsearch
     build:
       context: elasticsearch/
       args:
-        ELK_VERSION: $ELK_VERSION
+        VERSION: $VERSION
     environment:
-      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     volumes:
-      - elasticsearch1_data:/usr/share/elasticsearch/data
+      - elasticsearch_data:/usr/share/elasticsearch/data
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     ports:
-      - "9200:9200"
-      - "9300:9300"
+      - 9200:9200
     ulimits:
       memlock:
         soft: -1
         hard: -1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
     networks:
-      - elk
+      - elasticsearch_network
+
+  elasticsearch2:
+    container_name: elasticsearch2
+    build:
+      context: elasticsearch/
+      args:
+        VERSION: $VERSION
+    environment:
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.zen.ping.unicast.hosts=elasticsearch"
+    volumes:
+    - elasticsearch2_data:/usr/share/elasticsearch/data
+    - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    ports:
+    - 9200:9200
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+    networks:
+    - elasticsearch_network
 
   kibana:
+    container_name: kibana
+    depends_on:
+    - elasticsearch
     build:
       context: kibana/
       args:
-        ELK_VERSION: $ELK_VERSION
+        VERSION: $VERSION
     volumes:
       - ./kibana/config/:/usr/share/kibana/config:ro
     ports:
       - "5601:5601"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
     networks:
-      - elk
-    depends_on:
-      - elasticsearch
+    - elasticsearch_network
 
 volumes:
   elasticsearch_data:
     driver: local
+  elasticsearch2_data:
+    driver: local
 
 networks:
-  elk:
+  elasticsearch_network:
     driver: bridge
